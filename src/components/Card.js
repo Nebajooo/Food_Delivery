@@ -24,16 +24,20 @@ export default function Card(props) {
 
     //If only the qty of the order changes
     //And change for only when size
-    if (food !== []) {
-      if (food.size === size) {
+    // Check if food array is not empty
+    if (food.length > 0) {
+      // Iterate over each item in the food array
+      const existingItem = food.find((item) => item.size === size);
+      if (existingItem) {
+        // Update the existing item
         await dispatch({
           type: "UPDATE",
-          id: props.foodItem._id,
+          id: existingItem._id,
           price: finalPrice,
-          qty: qty,
+          // qty: qty,
         });
-        return;
-      } else if (food.size !== size) {
+      } else {
+        // Add a new item since no item with the same size exists
         await dispatch({
           type: "ADD",
           id: props.foodItem._id,
@@ -42,8 +46,9 @@ export default function Card(props) {
           qty: qty,
           size: size,
         });
-        return;
       }
+    } else {
+      // Add the item as the cart is empty
       await dispatch({
         type: "ADD",
         id: props.foodItem._id,
@@ -53,6 +58,7 @@ export default function Card(props) {
         size: size,
       });
     }
+
     //console.log(data);
   };
 

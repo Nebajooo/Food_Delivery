@@ -106,46 +106,41 @@ export default function Home() {
         </div>
       </div>
       <div className="container rounded">
-        {foodCategory !== []
-          ? foodCategory.map((data) => {
-              return (
-                <div className="row mb-3">
-                  <div key={data._id} className="fs-3 m-3">
-                    {data.CategoryName}
-                  </div>
-                  <hr></hr>
-                  {foodItem !== [] ? (
-                    foodItem
-                      .filter(
-                        (item) =>
-                          item.CategoryName === data.CategoryName &&
-                          item.name
-                            .toString()
-                            .toLowerCase()
-                            .includes(search.toString().toLowerCase())
-                      )
-                      .map((filterItems) => {
-                        return (
-                          <div
-                            key={filterItems._id}
-                            className="col-12 col-md-6 col-lg-3 m-2">
-                            <Card
-                              foodItem={filterItems}
-                              //foodName={filterItems.name}
-                              options={filterItems.options[0]}
-                              //imgSrc={filterItems.img}
-                            />
-                          </div>
-                        );
-                      })
-                  ) : (
-                    <div>"No such data found"</div>
-                  )}
-                </div>
-              );
-            })
-          : ""}
+        {foodCategory.length > 0 &&
+          foodCategory.map((data) => (
+            <div className="row mb-3" key={data._id}>
+              <div className="fs-3 m-3">{data.CategoryName}</div>
+              <hr />
+              {foodItem.length > 0 ? (
+                foodItem
+                  .filter(
+                    (item) =>
+                      item.CategoryName === data.CategoryName &&
+                      item.name
+                        .toString()
+                        .toLowerCase()
+                        .includes(search.toString().toLowerCase())
+                  )
+                  .map((filterItems) => (
+                    <div
+                      key={filterItems._id}
+                      className="col-12 col-md-6 col-lg-3 m-2">
+                      <Card
+                        foodItem={filterItems}
+                        //foodName={filterItems.name}
+                        options={filterItems.options[0]}
+                        //imgSrc={filterItems.img}
+                      />
+                    </div>
+                  ))
+              ) : (
+                <div key={data._id}>No such data found</div>
+              )}
+            </div>
+          ))}
+        {foodCategory.length === 0 && <div>No food categories found</div>}
       </div>
+
       <div>
         <Footer />
       </div>
