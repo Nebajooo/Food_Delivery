@@ -13,6 +13,7 @@ import { CartProvider } from "./components/ContextReducer";
 //Upgrade bootstrap to 5.2.0-beta1 by running the following command:
 //npm install bootstrap@5.2.0-beta1
 
+// <Switch> changes with Routes
 function App() {
   return (
     <CartProvider>
