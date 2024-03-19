@@ -1,36 +1,41 @@
 const express = require("express");
-const app = express();
-const port = 5000;
-const connectDB = require("./config/db");
 const cors = require("cors");
 
-const corsOptions = {
-  origin: "*",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
-connectDB();
+const app = express();
+app.use(cors());
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Cantrol-Allow-Origin", "https://localhost:3000");
-  res.header(
-    "Acess-Cantrol-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-app.use(cors(corsOptions)); // Use this after the variable declaration
-// app.use(cors());
-// app.options('*', cors());
 app.use(express.json());
-app.use("/api", require("./Routes/CreateUser"));
-app.use("/api", require("./Routes/DisplayData"));
-app.use("/api", require("./Routes/OrderData"));
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+const dotENV = require("dotenv");
+dotENV.config();
+
+const dbConnection = require("./config/db");
+dbConnection();
+
+const path = require("path");
+
+const PORT = process.env.PORT;
+const userRouter = require("./router/user.routes");
+app.use("/user", userRouter);
+
+const ownerRouter = require("./router/owner.routes");
+app.use("/owner", ownerRouter);
+
+const orderRouter = require("./router/order.routes");
+app.use("/order", orderRouter);
+
+// Serve static files from the 'build' directory
+app.use(express.static(path.join(__dirname, "build")));
+
+// Handle other routes by serving the React app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(PORT, () => {
+  try {
+    console.log(`Server is running on ${PORT}`);
+  } catch (error) {
+    console.log("Server is not RUNNING. SOMETHING WRONG");
+  }
 });
