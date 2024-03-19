@@ -1,106 +1,103 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Badge from "react-bootstrap/Badge";
-// import Login from "../Screens/Login";
-import Modal from "../Modal";
-import Cart from "../Screens/Cart";
-import { useCart } from "./ContextReducer";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
-export default function Navbar() {
-  const [cartView, setCartView] = useState(false);
-  const navigate = useNavigate();
+function Navbar() {
+  const auth = useAuthContext();
 
-  let data = useCart();
-
-  const handleLogoout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+  function handleLogout(e) {
+    auth.logout(false);
+    auth.setIsLogged(false);
+  }
 
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-success">
+    <>
+      <nav className="navbar shadow navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <Link className="navbar-brand fs-1 fst-italic" to="/">
-            NeFood
+          <Link to={"/"} className="navbar-brand">
+            {" "}
+            <img
+              src="/logoo1.png"
+              height={56}
+              width={190}
+              alt="MDB Logo"
+              loading="lazy"
+              style={{ marginTop: "-1px" }}
+            />
           </Link>
           <button
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" />
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav me-auto mb-2">
-              <li className="nav-item">
-                <Link
-                  className="nav-link active fs-5 fw-bold"
-                  aria-current="page"
-                  to="/">
-                  Home
-                </Link>
-              </li>
-
-              {/* {localStorage.getItem("token") ? (
-                <li className="nav-item">
-                  <Link
-                    className="nav-link active fs-5 fw-bold"
-                    aria-current="page"
-                    to="/myOrder"
-                  >
-                    My orders
-                  </Link>
-                </li>
+          <div
+            className="collapse navbar-collapse justify-content-end "
+            id="navbarSupportedContent">
+            <ul className="navbar-nav mb-2 mb-lg-0">
+              {auth.isLogged ? (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      to={`/profile/${auth.localUser.user._id}`}
+                      className="btn"
+                      type="button">
+                      <i className="fa fa-user" />{" "}
+                      {auth.localUser
+                        ? auth.localUser.user.username
+                        : "Profile"}
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      className="btn"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight">
+                      <i className="fa fa-cart-arrow-down" /> Cart
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={"/"} className="nav-link" onClick={handleLogout}>
+                      <i className="fa fa-sign-out" /> Logout
+                    </Link>
+                  </li>
+                </>
               ) : (
-                ""
-              )} */}
+                <>
+                  <li className="nav-item">
+                    <button
+                      className="btn"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasLogin"
+                      aria-controls="offcanvasLogin">
+                      <i className="fa fa-user" /> Login
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      className="btn"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasSignup"
+                      aria-controls="offcanvasSignup">
+                      <i className="fa fa-user" /> Signup
+                    </button>
+                  </li>
+                </>
+              )}
             </ul>
-
-            {!localStorage.getItem("token") ? (
-              <div className="d-flex">
-                <Link
-                  className="btn bg-white text-success mx-2 fw-bold"
-                  to="/login">
-                  Login
-                </Link>
-                <Link
-                  className="btn bg-white text-success mx-2 fw-bold"
-                  to="/createUser">
-                  SignUp
-                </Link>
-              </div>
-            ) : (
-              <div>
-                <div
-                  className="btn bg-white text-success mx-2 fw-bold"
-                  onClick={() => setCartView(true)}>
-                  My Cart{" "}
-                  <Badge pill bg="danger">
-                    {data.length}
-                  </Badge>
-                </div>
-
-                {cartView ? (
-                  <Modal onClose={() => setCartView(false)}>
-                    {" "}
-                    <Cart />{" "}
-                  </Modal>
-                ) : null}
-
-                <div
-                  className="btn bg-white text-danger mx-2 fw-bold"
-                  onClick={handleLogoout}>
-                  Logout
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </nav>
-    </div>
+    </>
   );
 }
+
+export default Navbar;

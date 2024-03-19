@@ -1,33 +1,49 @@
 import "./App.css";
-import Home from "./Screens/Home";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./Screens/Login";
-import "../node_modules/bootstrap-dark-5/dist/css/bootstrap-dark.min.css";
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
+import Navbar from "./components/Navbar";
+import { Routes, Route } from "react-router-dom";
+import Homepage from "./components/Pages/Homepage";
+import PageNotFound from "./components/Pages/PageNotFound";
+import Login from "./components/Pages/LoginPage";
+import Signup from "./components/Pages/Signup";
+import Offcanvas from "./components/Offcanvas";
+import LoginPage from "./components/Pages/LoginPage";
+import SignupPage from "./components/Pages/Signup";
+// import RequireAuth from "./components/RequireAuth";
+import Cart from "./components/Pages/Cart";
+import { AuthProvider } from "./context/AuthContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { CartProvider } from "./context/CartContext";
+import ProductPage from "./components/Pages/ProductPage";
+import RestaurantPage from "./components/Pages/RestaurantPage";
+import Profile from "./components/Pages/Profile";
 
-import Signup from "./Screens/Signup";
-import MyOrder from "./Screens/MyOrder";
-import { CartProvider } from "./components/ContextReducer";
-// import Cart from './Screens/Cart';
-//Upgrade bootstrap to 5.2.0-beta1 by running the following command:
-//npm install bootstrap@5.2.0-beta1
-
-// <Switch> changes with Routes
 function App() {
   return (
-    <CartProvider>
-      <Router>
-        <div>
+    <div className="App">
+      <AuthProvider>
+        <CartProvider>
+          <Navbar />
+          <Offcanvas />
+          <LoginPage />
+          <SignupPage />
+
           <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/Login" element={<Login />} />
-            <Route exact path="/createuser" element={<Signup />} />
-            <Route exact path="/myOrder" element={<MyOrder />} />
+            <Route path="/" element={<Homepage />}></Route>
+
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/resturant/:id" element={<RestaurantPage />} />
+            <Route path="/login" element={<Login></Login>}></Route>
+            <Route path="/profile/:id" element={<Profile></Profile>}></Route>
+            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/cart" element={<Cart />}></Route>
+            {/* <Route path='/cart' element={<RequireAuth><Cart/></RequireAuth>}></Route> */}
+            <Route path="*" element={<PageNotFound />}></Route>
           </Routes>
-        </div>
-      </Router>
-    </CartProvider>
+          <ToastContainer />
+        </CartProvider>
+      </AuthProvider>
+    </div>
   );
 }
 
