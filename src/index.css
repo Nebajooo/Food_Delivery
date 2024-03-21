@@ -1,69 +1,44 @@
-body {
+/* google fonts */
+
+@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
+
+/* reset default style */
+
+* {
   margin: 0;
-  font-family: -apple-system, Basis_Grotesque_Pro_Bold, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  border: none;
-  color: rgb(88, 88, 88);
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: Basis_Grotesque_Pro_Bold, source-code-pro, Menlo, Monaco,
-    Consolas, "Courier New", monospace;
-}
-.card {
-  border-radius: 24px;
-  background: #fff;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08), 0 0 6px rgba(0, 0, 0, 0.05);
-  transition: 0.3s transform cubic-bezier(0.155, 1.105, 0.295, 1.12),
-    0.3s box-shadow,
-    0.3s -webkit-transform cubic-bezier(0.155, 1.105, 0.295, 1.12);
-  /* padding: 14px 80px 18px 36px; */
-  cursor: pointer;
-  border: none;
-  width: 300px !important;
-  height: 400px;
-}
-.card span {
-  height: 50%;
-}
-.card span img {
-  height: 100%;
-}
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+/* base style */
+
+body {
+  background: #fcfcfc;
+  font-family: "Istok Web", sans-serif;
 }
 
-.forRest {
-  list-style: none;
-  border: none;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "RocknRoll One", sans-serif !important;
 }
-.forRest li {
-  border: none;
+
+a {
+  text-decoration: none;
+  color: unset;
 }
-.filter ul {
-  list-style: none;
-  border: none;
+
+h1,
+h2 {
+  font-size: 2.1rem;
+  font-weight: 600;
+  color: #212245;
 }
-.filter ul li {
-  border-style: none;
-}
-.filter button {
-  border-radius: 20px;
-  padding: 1%;
-  width: 90px;
-  height: 30px;
-  border: 0.1px solid rgb(252, 251, 251);
-  background-color: rgb(253, 251, 249);
-  box-shadow: 2px 2px 5px gray;
-}
-.prd {
-  width: 70% !important;
-}
-.prd img {
-  width: 100%;
-  height: 100%;
+
+section {
+  padding: 60px 0px;
 }
